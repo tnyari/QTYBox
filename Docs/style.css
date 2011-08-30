@@ -48,12 +48,13 @@
 	height:8px;
 }
 
-.QTYBox .up { 		background-image: url(img/qtybox.png); background-position:0px -1px;	border-bottom:1px solid #D5D5D5;}
-.QTYBox .down {		background-image: url(img/qtybox.png); background-position:0px 9px;		border-top:1px solid #D5D5D5;}
-.QTYBox .up_h { 	background-image: url(img/qtybox.png); background-position:30px -1px;	border-bottom:1px solid #D5D5D5;}
-.QTYBox .down_h {	background-image: url(img/qtybox.png); background-position:30px 9px;	border-top:1px solid #D5D5D5;}
-.QTYBox .up_c { 	background-image: url(img/qtybox.png); background-position:15px -1px;	border-bottom:1px solid #D5D5D5;}
-.QTYBox .down_c {	background-image: url(img/qtybox.png); background-position:15px 9px;	border-top:1px solid #D5D5D5;}
+.QTYBox .up,.QTYBox .down,.QTYBox .up_h,.QTYBox .down_h,.QTYBox .up_c,.QTYBox .down_c{background-image: url(img/qtybox.png);border-bottom:1px solid #D5D5D5;}
+.QTYBox .up { 		background-position:0px -1px;}
+.QTYBox .down {		background-position:0px 9px;}
+.QTYBox .up_h { 	background-position:30px -1px;}
+.QTYBox .down_h {	background-position:30px 9px;}
+.QTYBox .up_c { 	background-position:15px -1px;}
+.QTYBox .down_c {	background-position:15px 9px;}
 
 
 /*
