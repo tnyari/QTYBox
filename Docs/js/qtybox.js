@@ -22,7 +22,7 @@ var QTYBox = new Class({
 
 	//options
 	options: {
-		place: 'after',
+		place: 'after', //buttons place: before/after
 		initValue: 1,
 		minValue:1,
 		maxValue:20,
@@ -42,7 +42,6 @@ var QTYBox = new Class({
 		 this.setOptions(options);
 		 if ($(this.name)){
 			 this.qtyfield = $(this.name);
-			
 			 this.qtyvalue = this.qtyfield.get('value');
 			 this.cbox = false;
 			 this.initController();
@@ -68,9 +67,9 @@ var QTYBox = new Class({
 		this.downdiv.inject(this.maindiv);
 		if (this.cbox){
 			this.cbox.appendChild(this.maindiv);
-		}else{
-			this.maindiv.inject(this.qtyfield,this.options.place);
-		}
+		} 
+		this.maindiv.inject(this.qtyfield,this.options.place);
+		
 		//bind events
 		this.updiv.addEvent('click', this.incrase.bind(this));
 		this.downdiv.addEvent('click', this.decrase.bind(this));			

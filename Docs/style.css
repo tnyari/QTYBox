@@ -57,12 +57,72 @@
 .QTYBox .down_c {	background-position:15px 9px;}
 
 
-/*
-.QTYBox .up { background-image: url(img/up.gif);}
-.QTYBox .down {	background-image: url(img/down.gif);}
-.QTYBox .up_h { background-image: url(img/up_h.gif);}
-.QTYBox .down_h {	background-image: url(img/down_h.gif);}
-.QTYBox .up_c { background-image: url(img/up_c.gif);}
-.QTYBox .down_c {	background-image: url(img/down_c.gif);}
-*/
+
+
+
+
+
+
+/*	QTYBox style 2	*/
+
+.QTYBox2{ 
+	float:left; 
+	margin-left:5px;
+}
+
+.QTYBox2 input{ 
+	float:left; 
+	width:20px;
+	height:18px;
+	-moz-border-radius: 3px 0px 0px 3px; 
+    -webkit-border-radius: 3px 0px 0px 3px;
+    border-radius: 3px 0px 0px 3px; 
+	-moz-background-clip: padding; 
+	-webkit-background-clip: padding-box; 
+	background-clip: padding-box;
+	border:1px solid #CCC; 
+	text-align:right;
+}	  
+
+.QTYBox2 input{
+	font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+
+
+.QTYBox2 .arrowcontainer{ 
+	 float:left; 
+	 width:40px; 
+	 height:20px; 
+	 background-color:#F2F2F2;	
+	 border: 1px solid #D5D5D5;
+	 border-left:none;
+	 -moz-border-radius: 0px 3px 3px 0px!important; 
+     -webkit-border-radius: 0px 3px 3px 0px!important;
+     border-radius: 0px 3px 3px 0px!important; 
+	 -moz-background-clip: padding; 
+	 -webkit-background-clip: padding-box; 
+	 background-clip: padding-box;
+}
+
+.QTYBox2 .arrowcontainer div { 
+	cursor:pointer; 
+	width:20px; 
+	height:20px;
+	float:left;
+}
+
+.QTYBox2 .up,.QTYBox2 .down,.QTYBox2 .up_h,.QTYBox2 .down_h,.QTYBox2 .up_c,.QTYBox2 .down_c{background-image: url(img/qtybox_buttons.png);}
+.QTYBox2 .up { 		background-position:0px 0px;}
+.QTYBox2 .down {	background-position:0px 20px;}
+.QTYBox2 .up_h { 	background-position:40px 0px;}
+.QTYBox2 .down_h {	background-position:40px 20px;}
+.QTYBox2 .up_c { 	background-position:20px 0px;}
+.QTYBox2 .down_c {	background-position:20px 20px;}
+
+/*	Year field in date selector	*/
+#date-select-year{ width:30px;}
+/*	label	*/
 label{ float:left;}
