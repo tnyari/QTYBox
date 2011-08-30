@@ -1,0 +1,67 @@
+/* QTYBox */
+
+.QTYBox{ 
+	float:left; 
+	margin-left:5px;
+}
+
+.QTYBox input{ 
+	float:left; 
+	width:20px;
+	height:16px;
+	-moz-border-radius: 3px 0px 0px 3px; 
+    -webkit-border-radius: 3px 0px 0px 3px;
+    border-radius: 3px 0px 0px 3px; 
+	-moz-background-clip: padding; 
+	-webkit-background-clip: padding-box; 
+	background-clip: padding-box;
+	border:1px solid #CCC; 
+	text-align:right;
+}	  
+
+.QTYBox input{
+	font-family: Arial,Helvetica,sans-serif;
+    font-size: 12px;
+    vertical-align: middle;
+}
+
+
+
+.QTYBox .arrowcontainer{ 
+	 float:left; 
+	 width:15px; 
+	 height:18px; 
+	 background-color:#F2F2F2;	
+	 border: 1px solid #D5D5D5;
+	 border-left:none;
+	 -moz-border-radius: 0px 3px 3px 0px!important; 
+     -webkit-border-radius: 0px 3px 3px 0px!important;
+     border-radius: 0px 3px 3px 0px!important; 
+	 -moz-background-clip: padding; 
+	 -webkit-background-clip: padding-box; 
+	 background-clip: padding-box;
+}
+
+.QTYBox .arrowcontainer div { 
+	cursor:pointer; 
+	width:15px; 
+	height:8px;
+}
+
+.QTYBox .up { 		background-image: url(img/qtybox.png); background-position:0px -1px;	border-bottom:1px solid #D5D5D5;}
+.QTYBox .down {		background-image: url(img/qtybox.png); background-position:0px 9px;		border-top:1px solid #D5D5D5;}
+.QTYBox .up_h { 	background-image: url(img/qtybox.png); background-position:30px -1px;	border-bottom:1px solid #D5D5D5;}
+.QTYBox .down_h {	background-image: url(img/qtybox.png); background-position:30px 9px;	border-top:1px solid #D5D5D5;}
+.QTYBox .up_c { 	background-image: url(img/qtybox.png); background-position:15px -1px;	border-bottom:1px solid #D5D5D5;}
+.QTYBox .down_c {	background-image: url(img/qtybox.png); background-position:15px 9px;	border-top:1px solid #D5D5D5;}
+
+
+/*
+.QTYBox .up { background-image: url(img/up.gif);}
+.QTYBox .down {	background-image: url(img/down.gif);}
+.QTYBox .up_h { background-image: url(img/up_h.gif);}
+.QTYBox .down_h {	background-image: url(img/down_h.gif);}
+.QTYBox .up_c { background-image: url(img/up_c.gif);}
+.QTYBox .down_c {	background-image: url(img/down_c.gif);}
+*/
+label{ float:left;}

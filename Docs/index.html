@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="js/mootools-core-1.3.2.js"></script>
+<!--<script type="text/javascript" src="js/mootools-more-1.3.2.1.js"></script>-->
+<script type="text/javascript" src="js/qtybox.js"></script>
+
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script type="text/javascript">
+window.addEvent("domready", function(){  
+
+	new QTYBox('quantity_1',{
+			onChange: function(qtybox){
+				alert('You clicked!');
+			},
+			onIncrase:function(qtybox){
+				alert('You clicked Incrase');
+			},
+			onDecrase:function(qtybox){
+				alert('You clicked Decrase');
+			}	
+				
+		});
+	
+	
+	
+	for (i=1;i<6;i=i+1){
+		$('container').appendChild(new QTYBox('qty_'+i));	
+	
+	}
+	
+	
+	
+
+});
+
+</script>
+<title>QTYBox</title>
+
+</head>
+
+<body>
+<h1>QTYBox </h1>
+<p>QTYBox is an input field modifier, to incrase and decrase the contained number in the input field. It's useful for webshop's product pages, where the customer easier set up the quantity of the products, without using keyboard. The script insert an up and down control buttons after/before the inputbox, and if it was clicked they incrase or decrase the number in the inputbox. </p>
+<h2>Usage</h2>
+<p>&nbsp;</p>
+<p>var qtybox = new </p>
+<p>Set up the html first.</p>
+<p>&lt;script type=&quot;text/javascript&quot; src=&quot;js/mootools-core-1.3.2.js&quot;&gt;&lt;/script&gt;<br />
+  &lt;script type=&quot;text/javascript&quot; src=&quot;js/mootools-more-1.3.2.1.js&quot;&gt;&lt;/script&gt;<br />
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/qtybox.js&quot;&gt;&lt;/script&gt;</p>
+<p>The script working in 2 modes, what depend on the given 'name' parameter: if the element is available what has same id with 'name', the script will inject buttons after or before to the element, else if not available they will create and give back the element with the buttons.</p>
+<h3>Insert </h3>
+<p>If you have an inputbox on your html page already, you can use this feature on your html page.</p>
+<p>Your input field on your html page:</p>
+<p>&lt;input type=&quot;text&quot; name=&quot;quantity_1&quot; id=&quot;quantity_1&quot; /&gt;</p>
+<p>if you dont have an id on your input tag, please add it with your own id, example: quantity_1</p>
+<p>&nbsp;</p>
+<p>Javascript:</p>
+<p>window.addEvent(&quot;domready&quot;, function(){ <br />
+  new QTYBox('quantity_1');<br />
+});</p>
+<h4>Demo</h4>
+<p>
+<div class="QTYBox">
+  <label for="quantity_1">Quantity:</label>
+  <input type="text" name="quantity_1" id="quantity_1" />
+</div>
+<br style="clear:both;" />
+
+</p>
+<h3>
+  Create 
+</h3>
+<p>Create a full quantitybox  object element, and use with your own script. </p>
+<p>Javascript:</p>
+<p>var element = QTYBox('quantitybox');</p>
+<p>for (i=1;i&lt;6;i=i+1){<br />
+$('container').appendChild(new QTYBox('qty_'+i)); <br />
+<br />
+}</p>
+<h4>Demo</h4>
+<p>&nbsp;</p>
+<div id="container"></div>
+<p>&nbsp;</p>
+<h2>Options
+</h2>
+<ul>
+  <li>place: where inject the buttons, default:'after', 'before';</li>
+  <li> initValue: init value of the inputbox, default:1;</li>
+  <li> minValue: minimum value of the inputbox, default: 1;</li>
+  <li> maxValue: maximum value of the inputbox, default: 20;</li>
+  <li> incValue: increment value of the inputbox, default: 1;</li>
+  <li> showError: highlight the inputbox when user want to incrase or decrase more then minValue and maxValue, default: true;</li>
+  <li> hlColor: highlight color on inputbox, default: #FFBBBB;</li>
+  <li> cboxClass: QTYBox container div class default: 'QTYBox';</li>
+  
+  <li> onChange: Execute a given function when the value changed in the input field, default: null;</li>
+  <li> onIncrase: Execute a given function when the value increased in the input field, default: null;</li>
+  <li> onDecrase: Execute a given function when the value decrased in the input field, default: null;</li>
+</ul>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+</body>
+</html>
