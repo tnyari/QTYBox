@@ -1,0 +1,253 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+  <title>QTYBox @ GitHub</title>
+  <script type="text/javascript" src="js/mootools-core-1.3.2.js"></script>
+<script type="text/javascript" src="js/mootools-more-1.3.2.1.js"></script>
+<script type="text/javascript" src="js/qtybox.js"></script>
+
+<link rel="stylesheet" type="text/css" href="style.css" />
+<script type="text/javascript">
+window.addEvent("domready", function(){  
+
+	new QTYBox('quantity_1');
+	
+	
+	
+	for (i=1;i<6;i=i+1){
+		$('container').appendChild(new QTYBox('qty_'+i,{initValue:i,incValue:i,minValue:i,maxValue:i*10} ));	
+	
+	}
+	
+	
+	new QTYBox('quantity_2',{
+			onChange: function(qtybox){
+				alert('You changed!');
+			},
+			onIncrase:function(qtybox){
+				alert('You clicked Incrase');
+			},
+			onDecrase:function(qtybox){
+				alert('You clicked Decrase');
+			}	
+				
+		});
+	
+		new QTYBox('quantity_3');
+		
+		var date = new Date();
+		$('date-container').appendChild(new QTYBox('date-select-year',{initValue:date.get('year'),incValue:1,minValue:date.get('year')-90,maxValue:date.get('year')} ));
+		$('date-container').appendChild(new QTYBox('date-select-month',{initValue:date.get('month'),incValue:1,minValue:1,maxValue:12} ));
+		$('date-container').appendChild(new QTYBox('date-select-day',{initValue:date.get('day'),incValue:1,minValue:1,maxValue:31} ));
+	
+
+});
+
+</script>
+
+  <style type="text/css">
+    body {
+      margin-top: 1.0em;
+      background-color: #9593a9;
+      font-family: Helvetica, Arial, FreeSans, san-serif;
+      color: #000000;
+    }
+    #container {
+      margin: 0 auto;
+      width: 700px;
+    }
+    h1 { font-size: 3.8em; color: #6a6c56; margin-bottom: 3px; }
+    h1 .small { font-size: 0.4em; }
+    h1 a { text-decoration: none }
+    h2 { font-size: 1.5em; color: #6a6c56; }
+    h3 { text-align: center; color: #6a6c56; }
+    a { color: #6a6c56; }
+    .description { font-size: 1.2em; margin-bottom: 30px; margin-top: 30px; font-style: italic;}
+    .download { float: right; }
+    pre { background: #000; color: #fff; padding: 15px;}
+    hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
+    .footer { text-align:center; padding-top:30px; font-style: italic; }
+  </style>
+</head>
+
+<body>
+  <a href="http://github.com/tnyari/QTYBox"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
+
+  <div id="container">
+	
+    <h1>QTYBox </h1>
+<p>QTYBox is an input field modifier, to incrase and decrase the contained number in the input field. It's useful for webshop's product pages, where the customer easier set up the quantity of the products, without using keyboard. The script insert an up and down control buttons after/before the inputbox, and if it was clicked they incrase or decrase the number in the inputbox. </p>
+<h2>Usage</h2>
+<p>Set up the html first. Link to Mootools and QTYBox js files:</p>
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>&lt;script type=&quot;text/javascript&quot; src=&quot;js/mootools-core-1.3.2.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/mootools-more-1.3.2.1.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/qtybox.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p>and link the CSS Style sheet:</p>
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;style.css&quot; /&gt;</code></pre>
+<p>The script working in 2 modes (Insert or Create), what depend on the given 'name' parameter: if the element is available in DOM what has same id with 'name', the script will inject buttons after or before to the element, else if not available they will create and give back the element with the buttons.</p>
+<h3>Insert </h3>
+<p>If you have an inputbox on your html page already, you can use this feature on your html page.</p>
+<p>Your input field on your html page:</p>
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>&lt;input type=&quot;text&quot; name=&quot;quantity_1&quot; id=&quot;quantity_1&quot; /&gt;</code></pre>
+<p>if you dont have an id on your input tag, please add it with your own id, example: quantity_1</p>
+<p>&nbsp;</p>
+<p>Javascript:</p>
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>window.addEvent(&quot;domready&quot;, function(){ 
+   new QTYBox('quantity_1');
+});</code></pre>
+<h4>Demo</h4>
+<p>
+<div class="QTYBox">
+  <label for="quantity_1">Quantity:</label>
+  <input type="text" name="quantity_1" id="quantity_1" />
+</div>
+<br style="clear:both;" />
+
+</p>
+<h3>
+  Create 
+</h3>
+<p>Create a full quantitybox  object element, and use with your own script. If you use this mode, don't forget to insert an element somewhere in your html.</p>
+<p>Javascript:</p>
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>for (i=1;i&lt;6;i=i+1){
+    $('container').appendChild(new QTYBox('qty_'+i,{initValue:i,incValue:i,minValue:i,maxValue:i*10} )); 
+}</code></pre>
+<h4>Demo</h4>
+<p>&nbsp;</p>
+<div id="container"></div>
+<p>&nbsp;</p>
+<h2>Options
+</h2>
+<ul>
+  <li>place: where inject the buttons, default:'after', 'before';</li>
+  <li> initValue: init value of the inputbox, default:1;</li>
+  <li> minValue: minimum value of the inputbox, default: 1;</li>
+  <li> maxValue: maximum value of the inputbox, default: 20;</li>
+  <li> incValue: increment value of the inputbox, default: 1;</li>
+  <li> showError: highlight the inputbox when user want to incrase or decrase more then minValue and maxValue, default: true;</li>
+  <li> hlColor: highlight color on inputbox, default: #FFBBBB;</li>
+  <li> cboxClass: QTYBox container div class default: 'QTYBox';</li>
+  
+  <li> onChange: Execute a given function when the value changed in the input field, default: null;</li>
+  <li> onIncrase: Execute a given function when the value increased in the input field, default: null;</li>
+  <li> onDecrase: Execute a given function when the value decrased in the input field, default: null;</li>
+</ul>
+<p>&nbsp;</p>
+<h2>Examples</h2>
+<h3>Events</h3>
+<p>This example show you how to use change events on the QTYBox. </p>
+<ul>
+  <li><strong>onChange:</strong> Execute a given function when the value changed in the input field</li>
+  <li><strong>onIncrase:</strong> Execute a given function when the value increased in the input field</li>
+  <li><strong>onDecrase:</strong> Execute a given function when the value decrased in the input field</li>
+</ul>
+<p>HTML:</p>
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>&lt;div class=&quot;QTYBox&quot;&gt;
+&lt;label for=&quot;quantity_2&quot;&gt;Quantity:&lt;/label&gt;
+&lt;input type=&quot;text&quot; name=&quot;quantity_2&quot; id=&quot;quantity_2&quot; /&gt;
+&lt;/div&gt;</code></pre>
+<p>Javascript:</p>
+
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>window.addEvent(&quot;domready&quot;, function(){ 
+    new QTYBox('quantity_2',{
+        onChange: function(qtybox){
+            alert('You changed!');
+        },
+        onIncrase:function(qtybox){
+            alert('You clicked Incrase');
+        },
+        onDecrase:function(qtybox){
+            alert('You clicked Decrase');
+        } 
+    });
+});</code></pre>
+
+<h4>Demo</h4>
+<div class="QTYBox">
+  <label for="quantity_2">Quantity:</label>
+  <input type="text" name="quantity_2" id="quantity_2" />
+</div>
+<p>&nbsp;</p>
+<h3>Styling</h3>
+<p>You can style QTYBox to you website easyier by CSS Styles.</p>
+<p>I'm using a single PNG file to animate buttons:<img src="img/qtybox_buttons.png" width="60" height="40" alt="Button pattern" /></p>
+<p>and assign a background file and position to predefined class names in your css file, like this:</p>
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>.QTYBox2 .up,.QTYBox2 .down,.QTYBox2 .up_h,.QTYBox2 .down_h,.QTYBox2 .up_c,.QTYBox2 .down_c{background-image: url(img/qtybox_buttons.png);}
+.QTYBox2 .up { background-position:0px 0px;}
+.QTYBox2 .down {    background-position:0px 20px;}
+.QTYBox2 .up_h { background-position:40px 0px;}
+.QTYBox2 .down_h {    background-position:40px 20px;}
+.QTYBox2 .up_c { background-position:20px 0px;}
+.QTYBox2 .down_c {    background-position:20px 20px;}</code></pre>
+<h4>Demo</h4>
+<div class="QTYBox2">
+  <label for="quantity_3">Quantity:</label>
+  <input type="text" name="quantity_3" id="quantity_3" />
+</div>
+<p>&nbsp;</p>
+<h3>Create date selector</h3>
+<h4>HTML:</h4>
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>&lt;div id=&quot;date-container&quot;&gt;&lt;/div&gt;</code></pre>
+<h4>Javascript:</h4>
+<pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>var date = new Date();
+$('date-container').appendChild(new QTYBox('date-select-year',{initValue:date.get('year'),incValue:1,minValue:date.get('year')-90,maxValue:date.get('year')} ));
+$('date-container').appendChild(new QTYBox('date-select-month',{initValue:date.get('month'),incValue:1,minValue:1,maxValue:12} ));
+$('date-container').appendChild(new QTYBox('date-select-day',{initValue:date.get('day'),incValue:1,minValue:1,maxValue:31} ));</code></pre>
+<div id="date-container"></div>
+<p>&nbsp;</p>
+    
+    
+    
+    <div class="download">
+      <a href="http://github.com/tnyari/QTYBox/zipball/master">
+      <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
+      <a href="http://github.com/tnyari/QTYBox/tarball/master">
+      <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
+    </div>
+
+    <h1><a href="http://github.com/tnyari/QTYBox">DOWNLOAD QTYBox</a></h1>
+
+    <div class="description">
+      Easy input box modification, to increase or decrease a number value with mouse 
+    </div>
+
+    <h2>Dependencies</h2>
+
+<p>Mootools 1.3.2
+</p>
+<h2>License</h2>
+<p>MIT-style</p>
+<h2>Authors</h2>
+<p>Tamas Nyari (tnyari@gmail.com)
+<br/>
+<br/>      </p>
+<h2>Contact</h2>
+<p>Tamas Nyari (tnyari@gmail.com)
+<br/>      </p>
+
+
+    <h2>Download</h2>
+    <p>
+      You can download this project in either
+      <a href="http://github.com/tnyari/QTYBox/zipball/master">zip</a> or
+      <a href="http://github.com/tnyari/QTYBox/tarball/master">tar</a> formats.
+    </p>
+    <p>You can also clone the project with <a href="http://git-scm.com">Git</a>
+
+      by running:
+    <pre>$ git clone git://github.com/tnyari/QTYBox</pre>
+    </p>
+
+    <div class="footer">
+      get the source code on GitHub : <a href="http://github.com/tnyari/QTYBox">tnyari/QTYBox</a>
+    </div>
+
+  </div>
+
+  
+</body>
+</html>
+
