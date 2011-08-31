@@ -45,10 +45,10 @@
 .QTYBox .arrowcontainer div { 
 	cursor:pointer; 
 	width:15px; 
-	height:8px;
+	height:9px;
 }
 
-.QTYBox .up,.QTYBox .down,.QTYBox .up_h,.QTYBox .down_h,.QTYBox .up_c,.QTYBox .down_c{background-image: url(img/qtybox.png);border-bottom:1px solid #D5D5D5;}
+.QTYBox .up,.QTYBox .down,.QTYBox .up_h,.QTYBox .down_h,.QTYBox .up_c,.QTYBox .down_c{background-image: url(img/qtybox.png);/*border-bottom:1px solid #D5D5D5;*/}
 .QTYBox .up { 		background-position:0px -1px;}
 .QTYBox .down {		background-position:0px 9px;}
 .QTYBox .up_h { 	background-position:30px -1px;}
