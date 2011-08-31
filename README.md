@@ -56,27 +56,27 @@ Javascript:
 Options 
 ----------
 
-	*place: where inject the buttons, default:'after', 'before';
+*place: where inject the buttons, default:'after', 'before';
 
-	*initValue: init value of the inputbox, default:1;
+*initValue: init value of the inputbox, default:1;
 
-	*minValue: minimum value of the inputbox, default: 1;
+*minValue: minimum value of the inputbox, default: 1;
 
-	*maxValue: maximum value of the inputbox, default: 20;
+*maxValue: maximum value of the inputbox, default: 20;
 
-	*incValue: increment value of the inputbox, default: 1;
+*incValue: increment value of the inputbox, default: 1;
 
-	*showError: highlight the inputbox when user want to incrase or decrase more then minValue and maxValue, default: true;
+*showError: highlight the inputbox when user want to incrase or decrase more then minValue and maxValue, default: true;
 
-	*hlColor: highlight color on inputbox, default: #FFBBBB;
+*hlColor: highlight color on inputbox, default: #FFBBBB;
 
-	*cboxClass: QTYBox container div class default: 'QTYBox';
+*cboxClass: QTYBox container div class default: 'QTYBox';
 
-	*onChange: Execute a given function when the value changed in the input field, default: null;
+*onChange: Execute a given function when the value changed in the input field, default: null;
 
-	*onIncrase: Execute a given function when the value increased in the input field, default: null;
+*onIncrase: Execute a given function when the value increased in the input field, default: null;
 
-	*onDecrase: Execute a given function when the value decrased in the input field, default: null;
+*onDecrase: Execute a given function when the value decrased in the input field, default: null;
 
 
 
