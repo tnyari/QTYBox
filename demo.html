@@ -1479,40 +1479,6 @@ var QTYBox = new Class({
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 window.addEvent("domready", function(){  
 
 	new QTYBox('quantity_1');
@@ -1539,6 +1505,7 @@ window.addEvent("domready", function(){
 		});
 	
 		new QTYBox('quantity_3');
+		new QTYBox('quantity_4',{place:'before'});
 		
 		var date = new Date();
 		$('date-container').appendChild(new QTYBox('date-select-year',{initValue:date.get('year'),incValue:1,minValue:date.get('year')-90,maxValue:date.get('year')} ));
@@ -1700,6 +1667,71 @@ window.addEvent("domready", function(){
 	.QTYBox2 .up_c { 	background-position:20px 0px;}
 	.QTYBox2 .down_c {	background-position:20px 20px;}
 	
+	
+	
+	
+	/*	QTYBox style 3	*/
+	
+	.QTYBox3{ 
+		float:left; 
+		margin-left:5px;
+	}
+	
+	.QTYBox3 input{ 
+		float:left; 
+		width:20px;
+		height:18px;
+		-moz-border-radius: 0px 3px 3px 0px; 
+		-webkit-border-radius: 0px 3px 3px 0px; 
+		border-radius: 0px 3px 3px 0px; 
+		-moz-background-clip: padding; 
+		-webkit-background-clip: padding-box; 
+		background-clip: padding-box;
+		border:1px solid #CCC; 
+		text-align:right;
+	}	  
+	
+	.QTYBox3 input{
+		font-family: Arial,Helvetica,sans-serif;
+		font-size: 12px;
+		vertical-align: middle;
+	}
+	
+	
+	
+	.QTYBox3 .arrowcontainer{ 
+		 float:left; 
+		 width:40px; 
+		 height:20px; 
+		 background-color:#F2F2F2;	
+		 border: 1px solid #D5D5D5;
+		 border-right:none;
+		 -moz-border-radius:   3px 0px 0px 3px; 
+		 -webkit-border-radius:   3px 0px 0px 3px; 
+		 border-radius:   3px 0px 0px 3px; 
+		 -moz-background-clip: padding; 
+		 -webkit-background-clip: padding-box; 
+		 background-clip: padding-box;
+	}
+	
+	.QTYBox3 .arrowcontainer div { 
+		cursor:pointer; 
+		width:20px; 
+		height:20px;
+		float:left;
+	}
+	
+	.QTYBox3 .up,.QTYBox3 .down,.QTYBox3 .up_h,.QTYBox3 .down_h,.QTYBox3 .up_c,.QTYBox3 .down_c{background-image: url(data:image/png;base64,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);}
+	.QTYBox3 .up { 		background-position:0px 0px;}
+	.QTYBox3 .down {	background-position:0px 20px;}
+	.QTYBox3 .up_h { 	background-position:40px 0px;}
+	.QTYBox3 .down_h {	background-position:40px 20px;}
+	.QTYBox3 .up_c { 	background-position:20px 0px;}
+	.QTYBox3 .down_c {	background-position:20px 20px;}
+	
+	
+	
+	
 	/*	Year field in date selector	*/
 	#date-select-year{ width:30px;}
 	/*	label	*/
@@ -1744,8 +1776,14 @@ window.addEvent("domready", function(){
   <label for="quantity_3">Quantity:</label>
   <input type="text" name="quantity_3" id="quantity_3" />
 </div>
+
 <p>&nbsp;</p>
-<h2>Create date selector</h2>
+<div class="QTYBox3">
+  <label for="quantity_4">Quantity:</label>
+  <input type="text" name="quantity_4" id="quantity_4" />
+</div>
+<p>&nbsp;</p>
+<h2>Date selector</h2>
 <div id="date-container"></div>
 <p>&nbsp;</p>
 
