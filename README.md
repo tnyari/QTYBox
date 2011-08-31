@@ -5,6 +5,11 @@ QTYBox is an input field modifier, to incrase and decrase the contained number i
 
 ![Screenshot](http://img827.imageshack.us/img827/8080/screenshotmootools.jpg)
 
+DEMOS
+----------
+See demo on [jsFiddle](http://jsfiddle.net/tnyari/9m2V9/)
+See demo on [Github](http://tnyari.github.com/QTYBox/demo.html)
+
 How to use
 ----------
 
