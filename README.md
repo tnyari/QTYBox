@@ -127,6 +127,19 @@ Styling
 
 You can style QTYBox to you website easyier by CSS Styles.
 
+>In create mode, the created element will be a container with "QTYBox" class, and containing the input element. 
+
+You can use a following predefined class names for styling (conatiner class name is "QTYBox"):
+
+	.QTYBox .up{}
+	.QTYBox .up_c{}
+	.QTYBox .up_h{}
+
+	.QTYBox .down{}
+	.QTYBox .down_c{}
+	.QTYBox .down_h{}
+
+
 I'm using a single PNG file to animate buttons, and assign a background file and position to predefined class names in your css file, like this:
 
 	.QTYBox2 .up,.QTYBox2 .down,.QTYBox2 .up_h,.QTYBox2 .down_h,.QTYBox2 .up_c,.QTYBox2 .down_c{background-image: url(img/qtybox_buttons.png);}
