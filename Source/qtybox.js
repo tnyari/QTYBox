@@ -10,7 +10,7 @@ authors:
 requires:
 - MooTools 1.3.2
 
-provides: QTYBox
+provides: [QTYBox]
 
 ...
 */
@@ -30,9 +30,11 @@ var QTYBox = new Class({
 		showError:true,
 		hlColor:'#FFBBBB',
 		cboxClass:'QTYBox',
-		onChange:null,
-		onIncrase:null,
-		onDecrase:null
+		disableEdit:false,
+		
+		onChange:$empty,
+		onIncrase:$empty,
+		onDecrase:$empty
 		
 	},
 	
@@ -42,10 +44,10 @@ var QTYBox = new Class({
 		 this.setOptions(options);
 		 if ($(this.name)){
 			 this.qtyfield = $(this.name);
-			 this.qtyvalue = this.qtyfield.get('value');
 			 this.cbox = false;
 			 this.initController();
 			 this.init();
+			 this.qtyvalue = this.qtyfield.get('value');
 			 
 		 } else {
 			 this.qtyfield = this.createInput();
@@ -89,45 +91,86 @@ var QTYBox = new Class({
 		
 		
 		//bind key events
-		this.qtyfield.addEvent('keydown', function(event) { 
-			if (_this.options.onChange != null){_this.options.onChange(this);}
+		this.qtyfield.addEvent('keypress', function(event) { 
+			_this.options.onChange(this);
+			
 			if (event.key == 'up' || event.key == 'right'){
 				_this.incrase();
-				if (_this.options.onIncrase != null){_this.options.onIncrase(this);}
+				_this.options.onIncrase(this);
 			} else if (event.key == 'down' || event.key == 'left'){
 				_this.decrase();
-				if (_this.options.onDecrase != null){_this.options.onDecrase(this);}
+				_this.options.onDecrase(this);
+			} else {
+				_this.checkValue(event);			
 			}
+			
 		});
-	
 		
 	},
+	
+	
+	checkValue: function (event){
+		var regex = RegExp(/^[-+]?[0-9]+$/);
+    	this.qtyvalue = this.getValue();
+		if ((!regex.test(event.key) && event.key != 'backspace' && event.key != 'delete' && event.key != '-'  ) || this.options.disableEdit  ){
+			event.preventDefault();
+			this.error();}
+		else {
+			
+			if (event.key != 'backspace' && event.key != 'delete'){
+				event.preventDefault();
+				if (event.key == '-' && this.qtyvalue > 0 && !this.qtyvalue.test('-')) { 
+					var newValue = event.key + this.qtyvalue;
+				} else if (event.key != '-'){
+					var newValue = this.qtyvalue + event.key;
+				} else if (this.qtyvalue == '') {
+					var newValue = event.key;
+				} else {
+					var newValue = this.qtyvalue;
+				}
+				
+				if (newValue.toFloat() > this.options.maxValue.toFloat() || (newValue.toFloat() < this.options.minValue.toFloat() && newValue.length >=  this.options.minValue.length)   ){
+					this.error();
+				} else {
+					if (newValue == '-' || newValue == ''){
+						this.setValue(newValue);
+					} else {
+						this.setValue(newValue.toFloat());
+					}
+				}
+			}
+			
+		}
+	},	
 
 	incrase: function (){
-		if (this.options.maxValue > Number(this.qtyfield.get('value')) ){
-			this.qtyfield.set('value',Number(this.qtyfield.get('value')) + this.options.incValue);
-			if (this.options.onChange != null){this.options.onChange(this);}
-			if (this.options.onIncrase != null){this.options.onIncrase(this);}
+		this.qtyvalue = this.getValue();
+		var newValue = this.qtyvalue.toFloat() + this.options.incValue.toFloat();
+		if (this.options.maxValue >= newValue ){
+			this.setValue(newValue);
+			this.options.onChange(this);
+			this.options.onIncrase(this);
 		} else {
-			var bg_color=this.qtyfield.getStyle('backgroundColor');
-			if (this.options.showError){this.qtyfield.highlight(this.options.hlColor,bg_color)}
+			this.error();
 		}
-		
-		
 	},
 	decrase: function (){
-		if (this.options.minValue < Number(this.qtyfield.get('value')) ){
-			this.qtyfield.set('value',Number(this.qtyfield.get('value')) - this.options.incValue);
-			if (this.options.onChange != null){this.options.onChange(this);}
-			if (this.options.onDecrase != null){this.options.onDecrase(this);}
+		this.qtyvalue = this.getValue();
+		var newValue = this.qtyvalue.toFloat() - this.options.incValue.toFloat();
+		if (this.options.minValue <= newValue ){
+			this.setValue(newValue);
+			this.options.onChange(this);
+			this.options.onDecrase(this);
 		} else {
-			var bg_color=this.qtyfield.getStyle('backgroundColor');
-			if (this.options.showError){this.qtyfield.highlight(this.options.hlColor,bg_color)}
+			this.error();
 		}
-		
+	},
+	error:function(){
+		var bg_color=this.qtyfield.getStyle('backgroundColor');
+		if (this.options.showError){this.qtyfield.highlight(this.options.hlColor,bg_color)}
 	},
 	getValue: function(){
-		this.qtyfield.get('value');
+		return this.qtyfield.get('value');
 	},
 	setValue: function(value){
 		this.qtyfield.set('value',value);
@@ -135,6 +178,7 @@ var QTYBox = new Class({
 	//Init value
 	init: function(){
 		this.qtyfield.set('value',this.options.initValue);
+		this.oldValue = this.options.initValue;
 	},
 	createInput: function(){
 		var qtybox =  new Element('input');
@@ -149,5 +193,4 @@ var QTYBox = new Class({
 	}
 	
 });
-
 
