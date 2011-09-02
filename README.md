@@ -77,7 +77,7 @@ Options
 
 * cboxClass: QTYBox container div class default: 'QTYBox';
 
-* disableEdit: Disable edit inputbox. You should set showError to false for prevent blinking on keydown. alapértelmezett: false;
+* disableEdit: Disable edit inputbox. You should set showError to false for prevent blinking on keydown. default: false;
 
 * onChange: Execute a given function when the value changed in the input field, default: null;
 
