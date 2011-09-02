@@ -10,6 +10,52 @@
 
 <link rel="stylesheet" type="text/css" href="style.css" />
 <script type="text/javascript">
+
+function boxcreate(){
+	$('parambox_container').empty();
+	$('error_container').empty();
+	
+	var initValue = $('initValue').get('value');
+	var incValue = $('incValue').get('value');
+	var minValue = $('minValue').get('value');
+	var maxValue = $('maxValue').get('value');
+	var disableEdit = $('disableEdit').checked;
+	var showError = $('showError').checked;
+	
+	
+	var error = false;
+	var errormsg = '';	
+	
+	if (minValue.toFloat() > maxValue.toFloat()){
+		errormsg = errormsg +'Please set minValue < maxValue!';
+		error = true;
+	} else if (initValue.toFloat() < minValue.toFloat() || initValue.toFloat() > maxValue.toFloat() ){
+		errormsg = errormsg +'Please set the initValue between minValue and maxValue!';
+		error = true;
+	}   else if (incValue.toFloat() > (maxValue.toFloat()-minValue.toFloat())){
+		errormsg = errormsg +'Please decrease the incValue!';
+		error = true;
+	}
+	
+	if (!error){
+	$('parambox_container').appendChild(new QTYBox('simplebox',{
+		initValue:initValue,
+		incValue:incValue,
+		minValue:minValue,
+		maxValue:maxValue,
+		disableEdit:disableEdit,
+		showError:showError
+		}));	
+	} else {
+		$('error_container').set('html',errormsg);	
+		$('error_container').highlight();	
+	}
+	
+
+
+}
+
+
 window.addEvent("domready", function(){  
 
 	new QTYBox('quantity_1');
@@ -41,7 +87,12 @@ window.addEvent("domready", function(){
 		$('date-container').appendChild(new QTYBox('date-select-year',{initValue:date.get('year'),incValue:1,minValue:date.get('year')-90,maxValue:date.get('year')} ));
 		$('date-container').appendChild(new QTYBox('date-select-month',{initValue:date.get('month'),incValue:1,minValue:1,maxValue:12} ));
 		$('date-container').appendChild(new QTYBox('date-select-day',{initValue:date.get('day'),incValue:1,minValue:1,maxValue:31} ));
-	
+		
+		
+		boxcreate();
+		$('createBox').addEvent('click',function(){
+				boxcreate();
+		});
 
 });
 
@@ -69,6 +120,9 @@ window.addEvent("domready", function(){
     pre { background: #000; color: #fff; padding: 15px;}
     hr { border: 0; width: 80%; border-bottom: 1px solid #aaa}
     .footer { text-align:center; padding-top:30px; font-style: italic; }
+	
+	
+	#simplebox{ width:70px;}
   </style>
 </head>
 
@@ -198,14 +252,78 @@ $('date-container').appendChild(new QTYBox('date-select-month',{initValue:date.g
 $('date-container').appendChild(new QTYBox('date-select-day',{initValue:date.get('day'),incValue:1,minValue:1,maxValue:31} ));</code></pre>
 <div id="date-container"></div>
 <p>&nbsp;</p>
-    
-    
-    
-    <div class="download">
-      <a href="http://github.com/tnyari/QTYBox/zipball/master">
-      <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
-      <a href="http://github.com/tnyari/QTYBox/tarball/master">
-      <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
+<h3>Parameter test </h3>
+<p>&nbsp;</p>
+
+
+<div style="width:300px; float:left; margin:10px;">
+<div style="border:2px solid #CCC; padding:5px;">Setup parameters</div>
+<ul style="list-style:none;">		
+    <li>
+        <div>
+          <label for="initValue" style=" padding-right:20px;">initValue:</label>
+          <input type="text" name="initValue" id="initValue" style="width:60px" value="0" />
+        </div>
+    </li>
+    <br style="clear:both;" />
+    <li>
+        <div>
+          <label for="incValue" style=" padding-right:20px;">incValue:</label>
+          <input type="text" name="incValue" id="incValue"  style="width:60px" value="5.5" />
+        </div>
+    </li>
+    <br style="clear:both;" />
+    <li>
+        <div>
+          <label for="minValue" style=" padding-right:20px;">minValue:</label>
+          <input type="text" name="minValue" id="minValue"  style="width:60px" value="-55" />
+        </div>
+    </li>
+    <br style="clear:both;" />
+    <li>    
+        <div >
+          <label for="maxValue" style=" padding-right:20px;">maxValue:</label>
+          <input type="text" name="maxValue" id="maxValue"  style="width:60px" value="55" />
+        </div>
+    </li>
+    <br style="clear:both;" />
+    <li>
+        <div >
+          <label for="disableEdit" style=" padding-right:20px;">disableEdit: </label>
+          <input type="checkbox" name="disableEdit" id="disableEdit"  />
+        </div>
+    </li>
+    <br style="clear:both;" />
+    <li>
+        <div >
+          <label for="showError" style=" padding-right:20px;">showError: </label>
+          <input type="checkbox" name="showError" id="showError" checked="checked"  />
+        </div>
+    </li>
+    <br style="clear:both;" />
+    <li>
+        <div >
+          
+          <input type="button" name="createBox" id="createBox" value="Create"  />
+        </div>
+    </li>
+</ul>
+</div>
+<div id="error_container" style="float:left; max-width:300px; font-weight:bold; color:#C00;"></div>
+<div style="float:left; padding:70px;">
+QTYBox:<br />
+<div id="parambox_container"></div>    
+</div>
+
+<br style="clear:both;" />
+
+<p>&nbsp;</p>
+
+<div class="download">
+    <a href="http://github.com/tnyari/QTYBox/zipball/master">
+    <img border="0" width="90" src="http://github.com/images/modules/download/zip.png"></a>
+    <a href="http://github.com/tnyari/QTYBox/tarball/master">
+    <img border="0" width="90" src="http://github.com/images/modules/download/tar.png"></a>
     </div>
 
     <h1><a href="http://github.com/tnyari/QTYBox">DOWNLOAD QTYBox</a></h1>
