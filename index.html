@@ -1852,7 +1852,7 @@ window.addEvent("domready", function(){
   <li> showError: highlight the inputbox when user want to incrase or decrase more then minValue and maxValue, default: true;</li>
   <li> hlColor: highlight color on inputbox, default: #FFBBBB;</li>
   <li> cboxClass: QTYBox container div class default: 'QTYBox';</li>
-  <li> disableEdit: Disable edit inputbox. You should set showError to false for prevent blinking on keydown. alapértelmezett: false;</li>
+  <li> disableEdit: Disable edit inputbox. You should set showError to false for prevent blinking on keydown. default: false;</li>
   
   <li> onChange: Execute a given function when the value changed in the input field, default: null;</li>
   <li> onIncrase: Execute a given function when the value increased in the input field, default: null;</li>
@@ -1921,7 +1921,72 @@ $('date-container').appendChild(new QTYBox('date-select-month',{initValue:date.g
 $('date-container').appendChild(new QTYBox('date-select-day',{initValue:date.get('day'),incValue:1,minValue:1,maxValue:31} ));</code></pre>
 <div id="date-container"></div>
 <p>&nbsp;</p>
-    
+<h3>Parameter test </h3>
+<p>&nbsp;</p>
+
+
+<div style="width:300px; float:left; margin:10px;">
+<div style="border:2px solid #CCC; padding:5px;">Setup parameters</div>
+<ul style="list-style:none;">		
+    <li>
+        <div>
+          <label for="initValue" style=" padding-right:20px;">initValue:</label>
+          <input type="text" name="initValue" id="initValue" style="width:60px" value="0" />
+        </div>
+    </li>
+    <br style="clear:both;" />
+    <li>
+        <div>
+          <label for="incValue" style=" padding-right:20px;">incValue:</label>
+          <input type="text" name="incValue" id="incValue"  style="width:60px" value="5.5" />
+        </div>
+    </li>
+    <br style="clear:both;" />
+    <li>
+        <div>
+          <label for="minValue" style=" padding-right:20px;">minValue:</label>
+          <input type="text" name="minValue" id="minValue"  style="width:60px" value="-55" />
+        </div>
+    </li>
+    <br style="clear:both;" />
+    <li>    
+        <div >
+          <label for="maxValue" style=" padding-right:20px;">maxValue:</label>
+          <input type="text" name="maxValue" id="maxValue"  style="width:60px" value="55" />
+        </div>
+    </li>
+    <br style="clear:both;" />
+    <li>
+        <div >
+          <label for="disableEdit" style=" padding-right:20px;">disableEdit: </label>
+          <input type="checkbox" name="disableEdit" id="disableEdit"  />
+        </div>
+    </li>
+    <br style="clear:both;" />
+    <li>
+        <div >
+          <label for="showError" style=" padding-right:20px;">showError: </label>
+          <input type="checkbox" name="showError" id="showError" checked="checked"  />
+        </div>
+    </li>
+    <br style="clear:both;" />
+    <li>
+        <div >
+          
+          <input type="button" name="createBox" id="createBox" value="Create"  />
+        </div>
+    </li>
+</ul>
+</div>
+<div id="error_container" style="float:left; max-width:300px; font-weight:bold; color:#C00;"></div>
+<div style="float:left; padding:70px;">
+QTYBox:<br />
+<div id="parambox_container"></div>    
+</div>
+
+<br style="clear:both;" />
+
+<p>&nbsp;</p>    
     
     
     <div class="download">
