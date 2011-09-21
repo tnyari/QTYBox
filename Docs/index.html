@@ -69,14 +69,16 @@ window.addEvent("domready", function(){
 	
 	
 	new QTYBox('quantity_2',{
+			minValue:'-100',
+			maxValue:'100',
 			onChange: function(qtybox){
-				alert('You changed!');
+				alert('Changed!');
 			},
 			onIncrase:function(qtybox){
-				alert('You clicked Incrase');
+				alert('Incrased');
 			},
 			onDecrase:function(qtybox){
-				alert('You clicked Decrase');
+				alert('Decrased');
 			}	
 				
 		});
@@ -208,13 +210,13 @@ window.addEvent("domready", function(){
 <pre style="font-family: Andale Mono, Lucida Console, Monaco, fixed, monospace; color: #000000; background-color: #eee;font-size: 12px;border: 1px dashed #999999;line-height: 14px;padding: 5px; overflow: auto; width: 100%"><code>window.addEvent(&quot;domready&quot;, function(){ 
     new QTYBox('quantity_2',{
         onChange: function(qtybox){
-            alert('You changed!');
+            alert('Changed!');
         },
         onIncrase:function(qtybox){
-            alert('You clicked Incrase');
+            alert('Incrased');
         },
         onDecrase:function(qtybox){
-            alert('You clicked Decrase');
+            alert('Decrased');
         } 
     });
 });</code></pre>
