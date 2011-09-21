@@ -1320,7 +1320,6 @@ Locale.define("zh-CHS","FormValidator",{required:"此项必填。",minLength:"�
 Locale.define("zh-CHT","FormValidator",{required:"此項必填。 ",minLength:"請至少輸入{minLength} 個字符(已輸入{length} 個)。 ",maxLength:"最多只能輸入{maxLength} 個字符(已輸入{length} 個)。 ",integer:'請輸入一個整數，不能包含小數點。例如："1", "200"。 ',numeric:'請輸入一個數字，例如："1", "1.1", "-1", "-1.1"。 ',digits:"請輸入由數字和標點符號組成的內容。例如電話號碼。 ",alpha:"請輸入AZ 的26 個字母，不能包含空格或任何其他字符。 ",alphanum:"請輸入AZ 的26 個字母或0-9 的10 個數字，不能包含空格或任何其他字符。 ",dateSuchAs:"請輸入合法的日期格式，如：{date}。 ",dateInFormatMDY:'請輸入合法的日期格式，例如：YYYY-MM-DD ("2010-12-31")。 ',email:'請輸入合法的電子信箱地址，例如："fred@domain.com"。 ',url:"請輸入合法的Url 地址，例如：http://www.example.com。 ",currencyDollar:"請輸入合法的貨幣符號，例如：￥100.0",oneRequired:"請至少選擇一項。 ",errorPrefix:"錯誤：",warningPrefix:"警告：",noSpace:"不能包含空格。 ",reqChkByNode:"未選擇任何內容。 ",requiredChk:"此項必填。 ",reqChkByName:"請選擇 {label}.",match:"必須與{matchName}相匹配",startDate:"起始日期",endDate:"結束日期",currendDate:"當前日期",afterDate:"日期必須等於或晚於{label}.",beforeDate:"日期必須早於或等於{label}.",startMonth:"請選擇起始月份",sameMonth:"您必須修改兩個日期中的一個，以確保它們在同一月份。 ",creditcard:"您輸入的信用卡號碼不正確。當前已輸入{length}個字符。 "});
 Form.Validator.add("validate-currency-yuan",{errorMsg:function(){return Form.Validator.getMsg("currencyYuan");},test:function(a){return Form.Validator.getValidator("IsEmpty").test(a)||(/^￥?\-?([1-9]{1}[0-9]{0,2}(\,[0-9]{3})*(\.[0-9]{0,2})?|[1-9]{1}\d*(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|(\.[0-9]{1,2})?)$/).test(a.get("value"));
 }});
-
 /*
 ---
 description: Easy input box modification, to increase or decrease a number value with mouse 
@@ -1355,9 +1354,9 @@ var QTYBox = new Class({
 		cboxClass:'QTYBox',
 		disableEdit:false,
 		
-		onChange:$empty,
-		onIncrase:$empty,
-		onDecrase:$empty
+		onChange:null,
+		onIncrase:null,
+		onDecrase:null
 		
 	},
 	
@@ -1415,18 +1414,13 @@ var QTYBox = new Class({
 		
 		//bind key events
 		this.qtyfield.addEvent('keypress', function(event) { 
-			_this.options.onChange(this);
-			
 			if (event.key == 'up' || event.key == 'right'){
 				_this.incrase();
-				_this.options.onIncrase(this);
 			} else if (event.key == 'down' || event.key == 'left'){
 				_this.decrase();
-				_this.options.onDecrase(this);
 			} else {
 				_this.checkValue(event);			
 			}
-			
 		});
 		
 	},
@@ -1458,10 +1452,27 @@ var QTYBox = new Class({
 					if (newValue == '-' || newValue == ''){
 						this.setValue(newValue);
 					} else {
+						if(this.options.onChange != null){this.options.onChange(this)};
+						if (this.qtyvalue.toFloat() < newValue.toFloat()){
+							if(this.options.onIncrase != null){this.options.onIncrase(this)};
+						} else if (this.qtyvalue.toFloat() > newValue.toFloat()){
+							if(this.options.onDecrase != null){this.options.onDecrase(this)};
+						}
+						
 						this.setValue(newValue.toFloat());
 					}
 				}
-			}
+			} else if (event.key == 'backspace' || event.key == 'delete'){
+				if(this.options.onChange != null){this.options.onChange(this)};
+				
+				if (this.qtyvalue.toFloat() < 0){
+					if(this.options.onIncrase != null){this.options.onIncrase(this)};
+				} else if (this.qtyvalue.toFloat() > 0){
+					if(this.options.onDecrase != null){this.options.onDecrase(this)};
+				}
+
+			} 
+			
 			
 		}
 	},	
@@ -1471,8 +1482,8 @@ var QTYBox = new Class({
 		var newValue = this.qtyvalue.toFloat() + this.options.incValue.toFloat();
 		if (this.options.maxValue >= newValue ){
 			this.setValue(newValue);
-			this.options.onChange(this);
-			this.options.onIncrase(this);
+			if(this.options.onChange != null){this.options.onChange(this)};
+			if(this.options.onIncrase != null){this.options.onIncrase(this)};
 		} else {
 			this.error();
 		}
@@ -1482,14 +1493,15 @@ var QTYBox = new Class({
 		var newValue = this.qtyvalue.toFloat() - this.options.incValue.toFloat();
 		if (this.options.minValue <= newValue ){
 			this.setValue(newValue);
-			this.options.onChange(this);
-			this.options.onDecrase(this);
+			if(this.options.onChange != null){this.options.onChange(this)};
+			if(this.options.onDecrase != null){this.options.onDecrase(this)};
 		} else {
 			this.error();
 		}
 	},
 	error:function(){
-		var bg_color=this.qtyfield.getStyle('backgroundColor').hexToRgb();
+		var bg_color = this.qtyfield.getStyle('backgroundColor');
+		if (bg_color == 'transparent'){bg_color = '#ffffff';}
 		if (this.options.showError){this.qtyfield.highlight(this.options.hlColor,bg_color)}
 	},
 	getValue: function(){
@@ -1498,7 +1510,6 @@ var QTYBox = new Class({
 	setValue: function(value){
 		this.qtyfield.set('value',value);
 	},
-	//Init value
 	init: function(){
 		this.qtyfield.set('value',this.options.initValue);
 		this.oldValue = this.options.initValue;
@@ -1516,6 +1527,7 @@ var QTYBox = new Class({
 	}
 	
 });
+
 
 
 
@@ -1580,13 +1592,13 @@ window.addEvent("domready", function(){
 	
 	new QTYBox('quantity_2',{
 			onChange: function(qtybox){
-				alert('You changed!');
+				alert('Changed!');
 			},
 			onIncrase:function(qtybox){
-				alert('You clicked Incrase');
+				alert('Incrased');
 			},
 			onDecrase:function(qtybox){
-				alert('You clicked Decrase');
+				alert('Decrased');
 			}	
 				
 		});
