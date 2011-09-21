@@ -32,9 +32,9 @@ var QTYBox = new Class({
 		cboxClass:'QTYBox',
 		disableEdit:false,
 		
-		onChange:$empty,
-		onIncrase:$empty,
-		onDecrase:$empty
+		onChange:null,
+		onIncrase:null,
+		onDecrase:null
 		
 	},
 	
@@ -92,18 +92,13 @@ var QTYBox = new Class({
 		
 		//bind key events
 		this.qtyfield.addEvent('keypress', function(event) { 
-			_this.options.onChange(this);
-			
 			if (event.key == 'up' || event.key == 'right'){
 				_this.incrase();
-				_this.options.onIncrase(this);
 			} else if (event.key == 'down' || event.key == 'left'){
 				_this.decrase();
-				_this.options.onDecrase(this);
 			} else {
 				_this.checkValue(event);			
 			}
-			
 		});
 		
 	},
@@ -135,10 +130,27 @@ var QTYBox = new Class({
 					if (newValue == '-' || newValue == ''){
 						this.setValue(newValue);
 					} else {
+						if(this.options.onChange != null){this.options.onChange(this)};
+						if (this.qtyvalue.toFloat() < newValue.toFloat()){
+							if(this.options.onIncrase != null){this.options.onIncrase(this)};
+						} else if (this.qtyvalue.toFloat() > newValue.toFloat()){
+							if(this.options.onDecrase != null){this.options.onDecrase(this)};
+						}
+						
 						this.setValue(newValue.toFloat());
 					}
 				}
-			}
+			} else if (event.key == 'backspace' || event.key == 'delete'){
+				if(this.options.onChange != null){this.options.onChange(this)};
+				
+				if (this.qtyvalue.toFloat() < 0){
+					if(this.options.onIncrase != null){this.options.onIncrase(this)};
+				} else if (this.qtyvalue.toFloat() > 0){
+					if(this.options.onDecrase != null){this.options.onDecrase(this)};
+				}
+
+			} 
+			
 			
 		}
 	},	
@@ -148,8 +160,8 @@ var QTYBox = new Class({
 		var newValue = this.qtyvalue.toFloat() + this.options.incValue.toFloat();
 		if (this.options.maxValue >= newValue ){
 			this.setValue(newValue);
-			this.options.onChange(this);
-			this.options.onIncrase(this);
+			if(this.options.onChange != null){this.options.onChange(this)};
+			if(this.options.onIncrase != null){this.options.onIncrase(this)};
 		} else {
 			this.error();
 		}
@@ -159,14 +171,15 @@ var QTYBox = new Class({
 		var newValue = this.qtyvalue.toFloat() - this.options.incValue.toFloat();
 		if (this.options.minValue <= newValue ){
 			this.setValue(newValue);
-			this.options.onChange(this);
-			this.options.onDecrase(this);
+			if(this.options.onChange != null){this.options.onChange(this)};
+			if(this.options.onDecrase != null){this.options.onDecrase(this)};
 		} else {
 			this.error();
 		}
 	},
 	error:function(){
-		var bg_color=this.qtyfield.getStyle('backgroundColor').hexToRgb();
+		var bg_color = this.qtyfield.getStyle('backgroundColor');
+		if (bg_color == 'transparent'){bg_color = '#ffffff';}
 		if (this.options.showError){this.qtyfield.highlight(this.options.hlColor,bg_color)}
 	},
 	getValue: function(){
@@ -175,7 +188,6 @@ var QTYBox = new Class({
 	setValue: function(value){
 		this.qtyfield.set('value',value);
 	},
-	//Init value
 	init: function(){
 		this.qtyfield.set('value',this.options.initValue);
 		this.oldValue = this.options.initValue;
