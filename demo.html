@@ -2,10 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta http-equiv="keywords" name="keywords" content="qtybox quantity input box javascript mootools class element controller amount demo test  webshop product page html plugin " />
-<meta http-equiv="description" name="description" content="This is a working demo of QTYBox. QTYBox is an input field modifier, to incrase and decrase the contained number in the input field. It's useful for webshop's product pages, where the customer easier set up the quantity of the products, without using keyboard. The script insert an up and down control buttons after/before the inputbox, and if it was clicked they incrase or decrase the number in the inputbox." />
-
-<title>QTYBox - DEMO @ GitHub</title>
+<title>QTYBox @ GitHub</title>
 <script type="text/javascript">
 /*
 ---
@@ -1323,7 +1320,6 @@ Locale.define("zh-CHS","FormValidator",{required:"此项必填。",minLength:"�
 Locale.define("zh-CHT","FormValidator",{required:"此項必填。 ",minLength:"請至少輸入{minLength} 個字符(已輸入{length} 個)。 ",maxLength:"最多只能輸入{maxLength} 個字符(已輸入{length} 個)。 ",integer:'請輸入一個整數，不能包含小數點。例如："1", "200"。 ',numeric:'請輸入一個數字，例如："1", "1.1", "-1", "-1.1"。 ',digits:"請輸入由數字和標點符號組成的內容。例如電話號碼。 ",alpha:"請輸入AZ 的26 個字母，不能包含空格或任何其他字符。 ",alphanum:"請輸入AZ 的26 個字母或0-9 的10 個數字，不能包含空格或任何其他字符。 ",dateSuchAs:"請輸入合法的日期格式，如：{date}。 ",dateInFormatMDY:'請輸入合法的日期格式，例如：YYYY-MM-DD ("2010-12-31")。 ',email:'請輸入合法的電子信箱地址，例如："fred@domain.com"。 ',url:"請輸入合法的Url 地址，例如：http://www.example.com。 ",currencyDollar:"請輸入合法的貨幣符號，例如：￥100.0",oneRequired:"請至少選擇一項。 ",errorPrefix:"錯誤：",warningPrefix:"警告：",noSpace:"不能包含空格。 ",reqChkByNode:"未選擇任何內容。 ",requiredChk:"此項必填。 ",reqChkByName:"請選擇 {label}.",match:"必須與{matchName}相匹配",startDate:"起始日期",endDate:"結束日期",currendDate:"當前日期",afterDate:"日期必須等於或晚於{label}.",beforeDate:"日期必須早於或等於{label}.",startMonth:"請選擇起始月份",sameMonth:"您必須修改兩個日期中的一個，以確保它們在同一月份。 ",creditcard:"您輸入的信用卡號碼不正確。當前已輸入{length}個字符。 "});
 Form.Validator.add("validate-currency-yuan",{errorMsg:function(){return Form.Validator.getMsg("currencyYuan");},test:function(a){return Form.Validator.getValidator("IsEmpty").test(a)||(/^￥?\-?([1-9]{1}[0-9]{0,2}(\,[0-9]{3})*(\.[0-9]{0,2})?|[1-9]{1}\d*(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|(\.[0-9]{1,2})?)$/).test(a.get("value"));
 }});
-
 /*
 ---
 description: Easy input box modification, to increase or decrease a number value with mouse 
@@ -1358,9 +1354,9 @@ var QTYBox = new Class({
 		cboxClass:'QTYBox',
 		disableEdit:false,
 		
-		onChange:$empty,
-		onIncrase:$empty,
-		onDecrase:$empty
+		onChange:null,
+		onIncrase:null,
+		onDecrase:null
 		
 	},
 	
@@ -1418,18 +1414,13 @@ var QTYBox = new Class({
 		
 		//bind key events
 		this.qtyfield.addEvent('keypress', function(event) { 
-			_this.options.onChange(this);
-			
 			if (event.key == 'up' || event.key == 'right'){
 				_this.incrase();
-				_this.options.onIncrase(this);
 			} else if (event.key == 'down' || event.key == 'left'){
 				_this.decrase();
-				_this.options.onDecrase(this);
 			} else {
 				_this.checkValue(event);			
 			}
-			
 		});
 		
 	},
@@ -1461,10 +1452,27 @@ var QTYBox = new Class({
 					if (newValue == '-' || newValue == ''){
 						this.setValue(newValue);
 					} else {
+						if(this.options.onChange != null){this.options.onChange(this)};
+						if (this.qtyvalue.toFloat() < newValue.toFloat()){
+							if(this.options.onIncrase != null){this.options.onIncrase(this)};
+						} else if (this.qtyvalue.toFloat() > newValue.toFloat()){
+							if(this.options.onDecrase != null){this.options.onDecrase(this)};
+						}
+						
 						this.setValue(newValue.toFloat());
 					}
 				}
-			}
+			} else if (event.key == 'backspace' || event.key == 'delete'){
+				if(this.options.onChange != null){this.options.onChange(this)};
+				
+				if (this.qtyvalue.toFloat() < 0){
+					if(this.options.onIncrase != null){this.options.onIncrase(this)};
+				} else if (this.qtyvalue.toFloat() > 0){
+					if(this.options.onDecrase != null){this.options.onDecrase(this)};
+				}
+
+			} 
+			
 			
 		}
 	},	
@@ -1474,8 +1482,8 @@ var QTYBox = new Class({
 		var newValue = this.qtyvalue.toFloat() + this.options.incValue.toFloat();
 		if (this.options.maxValue >= newValue ){
 			this.setValue(newValue);
-			this.options.onChange(this);
-			this.options.onIncrase(this);
+			if(this.options.onChange != null){this.options.onChange(this)};
+			if(this.options.onIncrase != null){this.options.onIncrase(this)};
 		} else {
 			this.error();
 		}
@@ -1485,14 +1493,15 @@ var QTYBox = new Class({
 		var newValue = this.qtyvalue.toFloat() - this.options.incValue.toFloat();
 		if (this.options.minValue <= newValue ){
 			this.setValue(newValue);
-			this.options.onChange(this);
-			this.options.onDecrase(this);
+			if(this.options.onChange != null){this.options.onChange(this)};
+			if(this.options.onDecrase != null){this.options.onDecrase(this)};
 		} else {
 			this.error();
 		}
 	},
 	error:function(){
-		var bg_color=this.qtyfield.getStyle('backgroundColor').hexToRgb();
+		var bg_color = this.qtyfield.getStyle('backgroundColor');
+		if (bg_color == 'transparent'){bg_color = '#ffffff';}
 		if (this.options.showError){this.qtyfield.highlight(this.options.hlColor,bg_color)}
 	},
 	getValue: function(){
@@ -1501,7 +1510,6 @@ var QTYBox = new Class({
 	setValue: function(value){
 		this.qtyfield.set('value',value);
 	},
-	//Init value
 	init: function(){
 		this.qtyfield.set('value',this.options.initValue);
 		this.oldValue = this.options.initValue;
@@ -1519,6 +1527,9 @@ var QTYBox = new Class({
 	}
 	
 });
+
+
+
 
 
 function boxcreate(){
@@ -1567,9 +1578,6 @@ function boxcreate(){
 
 
 
-
-
-
 window.addEvent("domready", function(){  
 
 	new QTYBox('quantity_1');
@@ -1584,13 +1592,13 @@ window.addEvent("domready", function(){
 	
 	new QTYBox('quantity_2',{
 			onChange: function(qtybox){
-				alert('You changed!');
+				alert('Changed!');
 			},
 			onIncrase:function(qtybox){
-				alert('You clicked Incrase');
+				alert('Incrased');
 			},
 			onDecrase:function(qtybox){
-				alert('You clicked Decrase');
+				alert('Decrased');
 			}	
 				
 		});
@@ -1602,11 +1610,14 @@ window.addEvent("domready", function(){
 		$('date-container').appendChild(new QTYBox('date-select-year',{initValue:date.get('year'),incValue:1,minValue:date.get('year')-90,maxValue:date.get('year')} ));
 		$('date-container').appendChild(new QTYBox('date-select-month',{initValue:date.get('month'),incValue:1,minValue:1,maxValue:12} ));
 		$('date-container').appendChild(new QTYBox('date-select-day',{initValue:date.get('day'),incValue:1,minValue:1,maxValue:31} ));
-	
+		
+		
 		boxcreate();
 		$('createBox').addEvent('click',function(){
 				boxcreate();
 		});
+
+
 });
 
 </script>
@@ -1635,7 +1646,7 @@ window.addEvent("domready", function(){
     .footer { text-align:center; padding-top:30px; font-style: italic; }
 	
 	
-	
+	#simplebox{ width:70px;}
 	
 	/* QTYBox */
 	
@@ -1684,10 +1695,10 @@ window.addEvent("domready", function(){
 	.QTYBox .arrowcontainer div { 
 		cursor:pointer; 
 		width:15px; 
-		height:9px;
+		height:8px;
 	}
 	
-	.QTYBox .up,.QTYBox .down,.QTYBox .up_h,.QTYBox .down_h,.QTYBox .up_c,.QTYBox .down_c{background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAUCAYAAAAZb7T/AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNXG14zYAAAAWdEVYdENyZWF0aW9uIFRpbWUAMDcvMDMvMTGn03fXAAABzElEQVRIie3WvWoVQRQA4G/EtAEjKPgCdlYrNqIogl1AG38ewLEUFAQbwZ/a+oDoE5hCMAELsYqKCwqCDyDIrURBIQGLsdhLcje72dykiARyyp39Zs8OhzknlVLstTjwvxPYSRzse5hzPooHOId3uBcR36faMaeOFWUqm6quLXXXpo3lkXM+i5uoMIvf+ISneBMRfwcSHrSibGpTNWxLvW7Xks45z+E6ruIQvmIZJ3FivMkCnkXEjw3JTm1FadlUTW9L3djJmp7HFczgJe5GxBPcxovxO5dwueegOlaUHdtSD9vJmv6lqaP3WIqIFYiIUc75MT7iDH72fLhlRVkBUUZy2pYtdWNLXUap6redmt4LsSevvP2kdyv2k96tWLvycs7zmm60jLcRsTqxNoPTmvb6OSIWWrvk1LKirE6stawoLZuqti31uk1V25a6sZMnPTdevI874/lDznkWt/AIF3C45+dbdjx/kNO27Xj+kKrN7WRzeY0jmu5zDcdzzks4j1NYwSss9ny4Y+W0Y5uqYds3MF3EDU3fn8UffMFzLG4xMA3aLQamQds7MG1I/BgeatrnB81o+m3TZNuJd6woU9lUdW2pu3a/je9W/ANRf/LFBSSkJAAAAABJRU5ErkJggg%3D%3D);}
+	.QTYBox .up,.QTYBox .down,.QTYBox .up_h,.QTYBox .down_h,.QTYBox .up_c,.QTYBox .down_c{background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC0AAAAUCAYAAAAZb7T/AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNXG14zYAAAAWdEVYdENyZWF0aW9uIFRpbWUAMDcvMDMvMTGn03fXAAABzElEQVRIie3WvWoVQRQA4G/EtAEjKPgCdlYrNqIogl1AG38ewLEUFAQbwZ/a+oDoE5hCMAELsYqKCwqCDyDIrURBIQGLsdhLcje72dykiARyyp39Zs8OhzknlVLstTjwvxPYSRzse5hzPooHOId3uBcR36faMaeOFWUqm6quLXXXpo3lkXM+i5uoMIvf+ISneBMRfwcSHrSibGpTNWxLvW7Xks45z+E6ruIQvmIZJ3FivMkCnkXEjw3JTm1FadlUTW9L3djJmp7HFczgJe5GxBPcxovxO5dwueegOlaUHdtSD9vJmv6lqaP3WIqIFYiIUc75MT7iDH72fLhlRVkBUUZy2pYtdWNLXUap6redmt4LsSevvP2kdyv2k96tWLvycs7zmm60jLcRsTqxNoPTmvb6OSIWWrvk1LKirE6stawoLZuqti31uk1V25a6sZMnPTdevI874/lDznkWt/AIF3C45+dbdjx/kNO27Xj+kKrN7WRzeY0jmu5zDcdzzks4j1NYwSss9ny4Y+W0Y5uqYds3MF3EDU3fn8UffMFzLG4xMA3aLQamQds7MG1I/BgeatrnB81o+m3TZNuJd6woU9lUdW2pu3a/je9W/ANRf/LFBSSkJAAAAABJRU5ErkJggg%3D%3D);border-bottom:1px solid #D5D5D5;}
 	.QTYBox .up { 		background-position:0px -1px;}
 	.QTYBox .down {		background-position:0px 9px;}
 	.QTYBox .up_h { 	background-position:30px -1px;}
@@ -1831,31 +1842,17 @@ window.addEvent("domready", function(){
 	/*	label	*/
 	label{ float:left;}
 	
-	#simplebox{ width:70px;}
+	
 	
 	
 	
 	
   </style>
-  <script type="text/javascript">
-
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-25438953-1']);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-
-</script>
 </head>
 
 <body>
   <a href="http://github.com/tnyari/QTYBox"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub" /></a>
-	<a href="http://tnyari.github.com/QTYBox/index_hu.html"><img style="position: absolute; top: 0; right: 0; border: 0;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAAEbSURBVHja1JYxTgNBDEXfzHqXwEYKqRGCjltQIFoq7sVVqOmQuAgS9ASxgaxmbNPsJjRQzSLF5Ujzv/2/x57g7kwZkYljcoIACDAD6sLYCdgIMH+9vnkLlRTP/uThfilAG2LF4dVlUfDN4xNAK4BYznjfY6v332/4IOhfZ0NDxuUCMwMQAXDN+PoLX38Wyd6bBksJBoOxpFjXYV1XRh8RXHXbRWcppWeRsibnnKnr+jwCo15FY8SMAFOMixHzfyrYa4kE4OLuFqvhoy/zDubNEXUOOwLVjFUVamUqMXeS2o4gqYKBeRkv1BT7SaCqRCJtMyujP45q3hKkZErodIp9kwKwAE6B48LgK+Bl3GgHo1wlxxHQh73/VXwPAJzMjpnSpSwhAAAAAElFTkSuQmCC" alt="Magyar változat" /></a>
-  
+
   <div id="c-container">
 	
     <h1>QTYBox Demo</h1>
@@ -2001,9 +1998,7 @@ QTYBox:<br />
     </p>
 
     <div class="footer">
-      <p>get the source code on GitHub : <a href="http://github.com/tnyari/QTYBox">tnyari/QTYBox</a>
-      </p>
-      <p>Copyright 2011 Tamas Nyari</p>
+      get the source code on GitHub : <a href="http://github.com/tnyari/QTYBox">tnyari/QTYBox</a>
     </div>
 
   </div>
