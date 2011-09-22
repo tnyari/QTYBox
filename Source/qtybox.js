@@ -52,7 +52,7 @@ var QTYBox = new Class({
 		 } else {
 			 this.qtyfield = this.createInput();
 			 this.qtyvalue = this.options.initValue;
-			 this.cbox = new Element('div',{class:this.options.cboxClass});
+			 this.cbox = new Element('div',{'class':this.options.cboxClass});
 			 this.cbox.appendChild(this.qtyfield);
 			 this.initController();
 			 return this.cbox;
